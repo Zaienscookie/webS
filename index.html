@@ -47,12 +47,13 @@
             border: 2px solid var(--accent);
             color: var(--accent);
             background: rgba(0, 242, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 9999px; /* 全圆角按钮 */
         }
         .portal-btn:hover {
             background: var(--accent);
             color: #000;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2);
             transform: translateY(-3px);
         }
 
@@ -82,22 +83,23 @@
         }
         @keyframes flow { to { background-position: 200% center; } }
 
+        /* 圆角化卡片设计 */
         .brutal-card {
             background: var(--card-bg);
-            border: 1px solid #222;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2rem; /* 大圆角 */
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         @media (min-width: 1024px) {
             .brutal-card:hover {
-                transform: translate(-4px, -4px);
-                box-shadow: 8px 8px 0px var(--accent);
+                transform: translateY(-8px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--accent);
                 border-color: var(--accent);
             }
         }
         
-        /* MC 卡片特殊悬停 */
         .brutal-card-mc:hover {
-            box-shadow: 8px 8px 0px var(--mc-green) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--mc-green) !important;
             border-color: var(--mc-green) !important;
         }
 
@@ -106,13 +108,15 @@
             position: fixed;
             bottom: 100px;
             right: 30px;
-            width: 450px; 
-            height: 650px; 
+            width: 420px; 
+            height: 600px; 
             background: #0a0a0a;
-            border: 2px solid var(--accent);
-            box-shadow: 15px 15px 0px rgba(0, 242, 255, 0.15);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 2rem; /* AI窗口圆角 */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             flex-direction: column;
+            overflow: hidden;
             transform-origin: bottom right;
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
         }
@@ -120,38 +124,41 @@
         @media (max-width: 640px) {
             #ai-window {
                 width: 94vw;
-                height: 75vh;
+                height: 70vh;
                 right: 3vw;
-                bottom: 85px;
+                bottom: 90px;
             }
         }
 
-        .chat-msg { margin-bottom: 15px; padding: 12px; border-radius: 2px; font-size: 0.9rem; line-height: 1.6; }
-        .msg-user { background: #1a1a1a; border-right: 4px solid #444; margin-left: 10%; }
-        .msg-ai { background: #001a1a; border-left: 4px solid var(--accent); margin-right: 10%; }
+        .chat-msg { margin-bottom: 15px; padding: 14px; border-radius: 1.2rem; font-size: 0.9rem; line-height: 1.6; }
+        .msg-user { background: #1a1a1a; border-bottom-right-radius: 2px; margin-left: 15%; color: #fff; }
+        .msg-ai { background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.1); border-bottom-left-radius: 2px; margin-right: 15%; }
         
         .thinking-content { color: #666; font-style: italic; font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 6px; }
         .answer-content { color: #eee; white-space: pre-wrap; word-break: break-word; }
 
         .terminal-box {
-            background: rgba(0,0,0,0.8);
-            border-left: 4px solid var(--accent);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
             font-family: 'JetBrains Mono', monospace;
         }
 
         #ai-toggle {
-            animation: pulse-cyan 3s infinite;
-            font-family: 'Unbounded', sans-serif;
+            border-radius: 999px; /* 圆形切换按钮 */
+            box-shadow: 0 8px 24px rgba(0, 242, 255, 0.3);
         }
 
         ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
     </style>
 </head>
 <body id="top">
 
-    <nav class="fixed w-full z-50 px-4 md:px-6 py-4 bg-black/80 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <nav class="fixed w-full z-50 px-4 md:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-black/40 backdrop-blur-xl border border-white/5 px-6 py-3 rounded-full">
             <a href="#top" class="font-heading font-black text-xl tracking-tighter italic">
                 CS.<span class="text-cyan-400">LAB</span>
             </a>
@@ -172,19 +179,26 @@
                 <span class="fluid-text">WEB SECURITY</span>
             </h1>
             <div id="glitch-text" class="font-mono text-cyan-500 text-lg md:text-2xl mb-8 min-h-[1.5em] reveal-item delay-2"></div>
-            <div class="terminal-box p-4 md:p-6 max-w-xl mx-auto mb-10 text-left reveal-item delay-3">
+            
+            <div class="terminal-box max-w-xl mx-auto mb-10 text-left reveal-item delay-3">
+                <div class="flex gap-2 mb-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                </div>
                 <div class="text-cyan-400 opacity-70 mb-2 font-bold">$ ./init_recruitment.sh</div>
                 <div class="text-white">>> <span class="text-green-400">[*]</span> STATUS: <span class="animate-pulse">Awaiting hackers...</span></div>
                 <div class="text-white text-[10px] md:text-xs mt-2 opacity-40 font-mono">HASH: 7e892c...de41</div>
             </div>
+
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center reveal-item delay-4 max-w-4xl mx-auto px-4">
-                <button onclick="alert('提示：F12 是黑客的第一把钥匙...查看代码注释了吗？')" class="w-full sm:w-auto px-6 py-4 bg-cyan-500 text-black font-black brutal-card hover:bg-white transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
+                <button onclick="alert('提示：F12 是黑客的第一把钥匙...查看代码注释了吗？')" class="w-full sm:w-auto px-8 py-4 bg-cyan-500 text-black font-black rounded-full hover:scale-105 transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
                     <i class="fas fa-code"></i> 入门挑战
                 </button>
-                <a href="#join-us" class="w-full sm:w-auto px-6 py-4 portal-btn font-black uppercase text-xs tracking-widest flex items-center justify-center gap-2">
+                <a href="#join-us" class="w-full sm:w-auto px-8 py-4 portal-btn font-black uppercase text-xs tracking-widest flex items-center justify-center gap-2">
                     <i class="fas fa-user-plus"></i> 加入我们 (JOIN)
                 </a>
-                <button onclick="openAIWithMsg('我想请教一下如何开启 CTF 之路？')" class="w-full sm:w-auto px-6 py-4 bg-[#111] text-cyan-400 border border-cyan-500/50 font-black brutal-card transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
+                <button onclick="openAIWithMsg('我想请教一下如何开启 CTF 之路？')" class="w-full sm:w-auto px-8 py-4 bg-white/5 backdrop-blur-md text-cyan-400 border border-cyan-500/30 font-black rounded-full hover:bg-white/10 transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
                     <i class="fas fa-robot"></i> 咨询 AI
                 </button>
             </div>
@@ -202,8 +216,8 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <div class="brutal-card p-8 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl">01</div>
+            <div class="brutal-card p-10 group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 font-black text-4xl">01</div>
                 <i class="fas fa-globe text-4xl text-cyan-400 mb-6 transition-transform"></i>
                 <h3 class="text-2xl font-bold mb-4 font-mono">WEB_INFILTRATION</h3>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">突破防火墙，审计源码逻辑，利用 SQLi、RCE、SSRF 等漏洞获取系统最高控制权。</p>
@@ -212,8 +226,8 @@
                 </div>
             </div>
 
-            <div class="brutal-card p-8 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl">02</div>
+            <div class="brutal-card p-10 group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 font-black text-4xl">02</div>
                 <i class="fas fa-microchip text-4xl text-purple-500 mb-6 transition-transform"></i>
                 <h3 class="text-2xl font-bold mb-4 font-mono">BINARY_PWN</h3>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">与内存角力。通过堆栈溢出、格式化字符串漏洞，精准劫持程序流执行任意代码。</p>
@@ -222,8 +236,8 @@
                 </div>
             </div>
 
-            <div class="brutal-card p-8 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl">03</div>
+            <div class="brutal-card p-10 group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 font-black text-4xl">03</div>
                 <i class="fas fa-key text-4xl text-yellow-500 mb-6 transition-transform"></i>
                 <h3 class="text-2xl font-bold mb-4 font-mono">CRYPTO_RESEARCH</h3>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">在数学的迷宫中寻找漏洞。分析 RSA、椭圆曲线及现代对称加密协议的实现缺陷。</p>
@@ -232,8 +246,8 @@
                 </div>
             </div>
 
-            <div class="brutal-card p-8 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl">04</div>
+            <div class="brutal-card p-10 group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 font-black text-4xl">04</div>
                 <i class="fas fa-dna text-4xl text-red-500 mb-6 transition-transform"></i>
                 <h3 class="text-2xl font-bold mb-4 font-mono">REVERSE_ENG</h3>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">静态反汇编与动态调试。解构混淆代码与反调试机制，还原二进制文件的本质逻辑。</p>
@@ -242,8 +256,8 @@
                 </div>
             </div>
 
-            <div class="brutal-card p-8 group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-black text-4xl">05</div>
+            <div class="brutal-card p-10 group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-10 font-black text-4xl">05</div>
                 <i class="fas fa-search text-4xl text-green-500 mb-6 transition-transform"></i>
                 <h3 class="text-2xl font-bold mb-4 font-mono">MISC_INVEST</h3>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">数字取证、隐写术与流量分析。从碎片信息中还原黑客攻击路径与隐藏的机密。</p>
@@ -252,10 +266,10 @@
                 </div>
             </div>
 
-            <div class="brutal-card p-8 bg-cyan-500 text-black flex flex-col justify-center items-center text-center group border-none">
+            <div class="brutal-card p-10 bg-cyan-500 text-black flex flex-col justify-center items-center text-center group border-none">
                 <h3 class="text-2xl font-black mb-2 font-mono">READY?</h3>
                 <p class="text-black/70 text-xs font-bold mb-6 italic">准备好接受同步了吗？</p>
-                <a href="#join-us" class="px-8 py-3 border-2 border-black font-black hover:bg-black hover:text-white transition uppercase text-sm">
+                <a href="#join-us" class="px-8 py-4 border-2 border-black rounded-full font-black hover:bg-black hover:text-white transition uppercase text-sm">
                     START_YOUR_MISSION
                 </a>
             </div>
@@ -265,30 +279,30 @@
     <section id="join-us" class="py-16 md:py-24 bg-[#0a0a0a] border-t border-white/5">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <h2 class="text-3xl md:text-4xl font-black mb-8 italic uppercase text-cyan-400">Join The Elite</h2>
-            <div class="brutal-card p-6 md:p-10 text-left bg-[#111] w-full">
+            <div class="brutal-card p-8 md:p-12 text-left bg-[#111] w-full">
                 <div class="font-mono text-sm space-y-4">
                     <p class="text-cyan-500 underline underline-offset-8 font-bold text-lg mb-6"># System_Application_2026</p>
                     <p class="text-gray-300 leading-relaxed text-xs md:text-sm">
                         >> 正在寻找对底层技术有偏执热爱的灵魂。<br>
                         >> 扫描下方协议或点击链接，同步你的意识。
                     </p>
-                    <div class="pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                        <a href="这里填你的报名链接" target="_blank" class="brutal-card p-6 text-center hover:bg-black transition group">
+                    <div class="pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                        <a href="这里填你的报名链接" target="_blank" class="brutal-card p-8 text-center hover:bg-black transition group">
                             <i class="fas fa-file-signature text-2xl text-cyan-400 mb-3 group-hover:scale-110 transition"></i>
                             <div class="text-lg font-bold font-mono">在线报名</div>
                             <div class="text-[9px] text-gray-500 mt-1">RECRUIT_FORM.EXE</div>
                         </a>
-                        <a href="这里填你的QQ链接" target="_blank" class="brutal-card p-6 text-center hover:bg-black transition group">
+                        <a href="这里填你的QQ链接" target="_blank" class="brutal-card p-8 text-center hover:bg-black transition group">
                             <i class="fab fa-qq text-2xl text-blue-400 mb-3 group-hover:scale-110 transition"></i>
                             <div class="text-lg font-bold font-mono">QQ 交流群</div>
                             <div class="text-[9px] text-gray-500 mt-1">ID: 123456789</div>
                         </a>
-                        <a href="这里填你的微信图片链接" target="_blank" class="brutal-card p-6 text-center hover:bg-black transition group">
+                        <a href="这里填你的微信图片链接" target="_blank" class="brutal-card p-8 text-center hover:bg-black transition group">
                             <i class="fab fa-weixin text-2xl text-green-500 mb-3 group-hover:scale-110 transition"></i>
                             <div class="text-lg font-bold font-mono">微信社群</div>
                             <div class="text-[9px] text-gray-500 mt-1">WECHAT_SYNC</div>
                         </a>
-                        <a href="mc.html" class="brutal-card brutal-card-mc p-6 text-center hover:bg-black transition group border-green-900">
+                        <a href="mc.html" class="brutal-card brutal-card-mc p-8 text-center hover:bg-black transition group border-green-900/30">
                             <i class="fas fa-cube text-2xl text-green-500 mb-3 group-hover:scale-110 transition"></i>
                             <div class="text-lg font-bold font-mono text-green-400">MC 服务器</div>
                             <div class="text-[9px] text-gray-500 mt-1">PARALLEL_WORLD</div>
@@ -303,28 +317,28 @@
         <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tighter">验证你的发现</h2>
             <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="flag-input" placeholder="flag{...}" class="flex-1 bg-black border border-white/10 px-6 py-4 font-mono focus:border-cyan-500 outline-none text-cyan-400 text-sm">
-                <button id="submit-btn" class="px-10 py-4 bg-white text-black font-black uppercase hover:bg-cyan-500 transition text-sm">SUBMIT</button>
+                <input type="text" id="flag-input" placeholder="flag{...}" class="flex-1 bg-black border border-white/10 px-8 py-4 rounded-full font-mono focus:border-cyan-500 outline-none text-cyan-400 text-sm">
+                <button id="submit-btn" class="px-10 py-4 bg-white text-black font-black rounded-full uppercase hover:bg-cyan-500 transition text-sm">SUBMIT</button>
             </div>
         </div>
     </section>
 
-    <button id="ai-toggle" class="fixed bottom-6 right-6 w-12 h-12 md:w-16 md:h-16 bg-cyan-500 rounded-none flex flex-col items-center justify-center text-black shadow-xl hover:scale-110 transition z-[1001] border-2 border-white">
-        <i class="fas fa-robot text-xl md:text-2xl"></i>
-        <span class="text-[8px] md:text-[10px] font-black leading-none mt-1">AI</span>
+    <button id="ai-toggle" class="fixed bottom-6 right-6 w-16 h-16 bg-cyan-500 flex flex-col items-center justify-center text-black z-[1001] border-2 border-white">
+        <i class="fas fa-robot text-2xl"></i>
+        <span class="text-[10px] font-black leading-none mt-1">AI</span>
     </button>
 
     <div id="ai-window" class="flex flex-col font-mono">
-        <div class="bg-cyan-500 p-4 text-black font-bold flex justify-between items-center text-[10px] md:text-xs">
+        <div class="bg-cyan-500 p-5 text-black font-bold flex justify-between items-center text-xs">
             <span><i class="fas fa-robot mr-2 animate-pulse"></i>CYBERSHIELD_MENTOR_V3</span>
-            <button onclick="toggleAI(false)" class="p-1"><i class="fas fa-times text-lg"></i></button>
+            <button onclick="toggleAI(false)" class="p-1 hover:rotate-90 transition"><i class="fas fa-times text-lg"></i></button>
         </div>
-        <div id="chat-content" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+        <div id="chat-content" class="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-black to-[#0a0a0a]">
             <div class="chat-msg msg-ai">接入成功。你好，新人。我是 Mr.Terminal，有什么可以帮你的？</div>
         </div>
         <div class="p-4 border-t border-white/10 flex gap-3 bg-black">
-            <input type="text" id="ai-input" placeholder="输入指令..." class="flex-1 bg-black text-xs p-3 outline-none border border-white/10 focus:border-cyan-500 text-white font-mono">
-            <button id="ai-send" class="text-cyan-400 px-2"><i class="fas fa-paper-plane text-xl"></i></button>
+            <input type="text" id="ai-input" placeholder="输入指令..." class="flex-1 bg-[#111] text-xs p-4 rounded-xl outline-none border border-white/5 focus:border-cyan-500 text-white font-mono">
+            <button id="ai-send" class="text-cyan-400 px-2 hover:scale-110 transition"><i class="fas fa-paper-plane text-xl"></i></button>
         </div>
     </div>
 
@@ -333,6 +347,7 @@
     </footer>
 
     <script>
+        // 脚本部分完全保持原样
         const phrases = ["Decode The World...", "Welcome To Join CTF !", "Hack The Planet...", "Wait For Talents..."];
         let phraseIdx = 0;
         const glitchEl = document.getElementById('glitch-text');
@@ -448,9 +463,7 @@
         };
     </script>
     <div style="display:none"></div>
-        <!-- 你好像还没看见 flag，有点蠢蠢的，但是我喜欢，大家都是这么过来的 -->
     <div>
-        <!-- 恭喜你，找到我了 flag{ctf_easy_start} -->
-    </div>
+        </div>
 </body>
 </html>
